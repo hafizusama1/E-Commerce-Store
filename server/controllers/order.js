@@ -1,6 +1,7 @@
 const expressAsyncHandler = require('express-async-handler');
 const Order = require('../models/order');
 const User = require('../models/user');
+const Product = require('../models/product');
 
 const addNewOrder = expressAsyncHandler(async (req, res) => {
   const newOrder = new Order({
@@ -22,6 +23,11 @@ const addNewOrder = expressAsyncHandler(async (req, res) => {
   res.status(201).json({ message: 'New order created', order });
 });
 
+const getAllOrders = expressAsyncHandler(async (req, res) => {
+  const orders = await Order.find().populate('user', 'name');
+  res.send(orders);
+});
+
 const getOrdersSummary = expressAsyncHandler(async (req, res) => {
   const orders = await Order.aggregate([
     {
@@ -40,8 +46,28 @@ const getOrdersSummary = expressAsyncHandler(async (req, res) => {
       },
     },
   ]);
-  res.status(200).json({ users, orders });
-  console.log(users, orders);
+
+  const dailyOrders = await Order.aggregate([
+    {
+      $group: {
+        _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+        orders: { $sum: 1 },
+        sales: { $sum: '$totalPrice' },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+
+  const productCategories = await Product.aggregate([
+    {
+      $group: {
+        _id: '$category',
+        count: { $sum: 1 },
+      },
+    },
+  ]);
+
+  res.status(200).json({ users, orders, dailyOrders, productCategories });
 });
 
 const myOrders = expressAsyncHandler(async (req, res) => {
@@ -58,4 +84,34 @@ const showOrder = expressAsyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { addNewOrder, showOrder, myOrders, getOrdersSummary };
+const isOrderDelivered = expressAsyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isDelivered = true;
+    order.deliveredAt = Date.now();
+    await order.save();
+    res.status(200).json({ message: 'Order Delivered' });
+  } else {
+    res.status(404).json({ message: 'Order not found' });
+  }
+});
+
+const deleteOrder = expressAsyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    await order.remove();
+    res.send({ message: 'Order Deleted' });
+  } else {
+    res.status(404).send({ message: 'Order Not Found' });
+  }
+});
+
+module.exports = {
+  addNewOrder,
+  getAllOrders,
+  showOrder,
+  myOrders,
+  getOrdersSummary,
+  isOrderDelivered,
+  deleteOrder,
+};

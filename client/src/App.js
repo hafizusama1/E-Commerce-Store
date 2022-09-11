@@ -21,6 +21,11 @@ import SearchPage from './pages/SearchPage';
 import ProtectedRoute from './routes/ProtectedRoute';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminRoute from './routes/AdminRoute';
+import ProductList from './pages/admin/ProductList';
+import EditProductPage from './pages/admin/EditProductPage';
+import OrderList from './pages/admin/OrderList';
+import UserList from './pages/admin/UserList';
+import EditUser from './pages/admin/EditUser';
 
 function App() {
   return (
@@ -71,6 +76,48 @@ function App() {
               element={
                 <AdminRoute>
                   <AdminDashboard />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/products"
+              element={
+                <AdminRoute>
+                  <ProductList />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/orders"
+              element={
+                <AdminRoute>
+                  <OrderList />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/product/:id"
+              element={
+                <AdminRoute>
+                  <EditProductPage />
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/admin/users"
+              element={
+                <AdminRoute>
+                  <UserList />
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/admin/user/:id"
+              element={
+                <AdminRoute>
+                  <EditUser />
                 </AdminRoute>
               }
             />

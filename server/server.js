@@ -5,6 +5,7 @@ const productRouter = require('./routes/product');
 const orderRouter = require('./routes/order');
 const userRouter = require('./routes/user');
 const seedRouter = require('./routes/seed');
+const uploadRouter = require('./routes/upload');
 const morgan = require('morgan');
 const cors = require('cors');
 
@@ -20,6 +21,7 @@ if (process.env.ENVIRONMENT === 'dev') {
 app.use(cors());
 app.use(express.json());
 app.use('/api/seed', seedRouter);
+app.use('/api/upload', uploadRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);

@@ -1,30 +1,93 @@
 const expressAsyncHandler = require('express-async-handler');
 const Product = require('../models/product');
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = expressAsyncHandler(async (req, res) => {
   const products = await Product.find();
   res.status(201).json(products);
-};
+});
 
-const getSingleProduct = async (req, res) => {
+const addNewProduct = expressAsyncHandler(async (req, res) => {
+  const newProduct = new Product({
+    title: 'sample title ',
+    slug: 'sample-title-slug',
+    image: '/images/p1.png',
+    price: ' ',
+    category: ' ',
+    countInStock: ' ',
+    rating: ' ',
+    numReviews: 0,
+    description: 'Sample description',
+  });
+  const product = await newProduct.save();
+  res.status(201).json({ message: 'Product Created', product });
+});
+
+const editProduct = expressAsyncHandler(async (req, res) => {
+  const productId = req.params.id;
+  const product = await Product.findById(productId);
+  if (product) {
+    product.title = req.body.title;
+    product.slug = req.body.slug;
+    product.price = req.body.price;
+    product.image = req.body.image;
+    product.images = req.body.images;
+    product.category = req.body.category;
+    product.countInStock = req.body.countInStock;
+    product.description = req.body.description;
+    await product.save();
+    res.status(201).json({ message: 'Product Updated' });
+  } else {
+    res.status(404).send({ message: 'Product Not Found' });
+  }
+});
+
+const getSingleProduct = expressAsyncHandler(async (req, res) => {
   const product = await Product.findOne({ slug: req.params.slug });
   if (product) {
     res.status(200).json(product);
   } else {
     res.status(404).json({ message: 'Product not found' });
   }
-};
+});
 
-const getProductById = async (req, res) => {
+const getProductById = expressAsyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
     res.status(200).json(product);
   } else {
     res.status(404).json({ message: 'Product not found' });
   }
-};
+});
+
+const deleteProduct = expressAsyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    await product.remove();
+    res.send({ message: 'Product Deleted' });
+  } else {
+    res.status(404).send({ message: 'Product Not Found' });
+  }
+});
 
 const PAGE_SIZE = 3;
+
+const showAdminProducts = expressAsyncHandler(async (req, res) => {
+  const { query } = req;
+  const page = query.page || 1;
+  const pageSize = query.pageSize || PAGE_SIZE;
+  const products = await Product.find()
+    .skip(pageSize * (page - 1))
+    .limit(pageSize);
+
+  const countProducts = await Product.countDocuments();
+  res.status(201).json({
+    products,
+    countProducts,
+    page,
+    pages: Math.ceil(countProducts / pageSize),
+  });
+});
+
 const searchProduct = expressAsyncHandler(async (req, res) => {
   const { query } = req;
   const pageSize = query.pageSize || PAGE_SIZE;
@@ -112,4 +175,8 @@ module.exports = {
   getProductById,
   searchProduct,
   getProductsByCategory,
+  showAdminProducts,
+  addNewProduct,
+  editProduct,
+  deleteProduct,
 };

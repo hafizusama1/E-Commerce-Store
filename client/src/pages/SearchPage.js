@@ -13,6 +13,7 @@ import MessageBox from '../components/MessageBox';
 import SingleProduct from '../components/SingleProduct';
 import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
+import SearchBox from '../components/SearchBox';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -218,6 +219,7 @@ function SearchPage() {
         </Col>
 
         <Col md={9}>
+          {/* <SearchBox /> */}
           {loading ? (
             <Loader></Loader>
           ) : error ? (
@@ -248,7 +250,7 @@ function SearchPage() {
                   </div>
                 </Col>
                 <Col className="text-end">
-                  Sort By
+                  Sort By:{' '}
                   <select
                     value={order}
                     onChange={(e) => {

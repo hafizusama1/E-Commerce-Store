@@ -46,8 +46,12 @@ function Products() {
 
   return (
     <div className="App">
-      <h1>Featured Products</h1>
-      <div className="productss">
+      <h1>Hot Selling Products</h1>
+      <p>
+        Looking for Damascus Knives Collection? Look no further than Damascus
+        outlet. Click Below to browse our huge selection
+      </p>
+      <div style={{}}>
         {loading ? (
           <Loader />
         ) : error ? (

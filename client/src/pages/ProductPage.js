@@ -1,7 +1,8 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 import axios from 'axios';
@@ -32,6 +33,7 @@ const reducer = (state, action) => {
 function ProductPage() {
   const params = useParams();
   const { slug } = params;
+  const [selectedImage, setSelectedImage] = useState('');
   const navigate = useNavigate();
 
   const [{ loading, error, product }, dispatch] = useReducer(reducer, {
@@ -39,6 +41,7 @@ function ProductPage() {
     loading: true,
     error: '',
   });
+
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
@@ -59,7 +62,7 @@ function ProductPage() {
     const existItem = cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
     const { data } = await axios.get(`/api/products/${product._id}`);
-
+    console.log(data.countInStock);
     if (data.countInStock < quantity) {
       setTimeout(() => {
         window.alert('Sorry, the product is out of stock.');
@@ -76,12 +79,28 @@ function ProductPage() {
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <Row>
-      <Col md={6}>
+      <Col md={6} className="col-centered">
         <img
           className="img-large text-center"
-          src={product.image}
+          src={selectedImage || product.image}
           alt={product.name}
         />
+        <ListGroup.Item>
+          <Row xs={1} md={2} className="g-2">
+            {[product.image, ...product.images].map((x) => (
+              <Col key={x} style={{ width: '20%' }}>
+                <Button
+                  className="thumbnail"
+                  type="button"
+                  variant="light"
+                  onClick={() => setSelectedImage(x)}
+                >
+                  <Card.Img variant="top" src={x} alt="product" />
+                </Button>
+              </Col>
+            ))}
+          </Row>
+        </ListGroup.Item>
       </Col>
 
       <Col md={6}>
@@ -95,7 +114,7 @@ function ProductPage() {
           <ListGroup.Item>
             <Rating rating={product.rating} numReviews={product.numReviews} />
           </ListGroup.Item>
-          <ListGroup.Item>Price: {product.price}</ListGroup.Item>
+          <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
           <ListGroup.Item>
             <Row>
               <Col>Status:</Col>

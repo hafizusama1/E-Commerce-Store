@@ -14,7 +14,11 @@ function SearchBox() {
   };
 
   return (
-    <Form className="w-100" onSubmit={submitHandler}>
+    <Form
+      className=""
+      style={{ marginBottom: '30px' }}
+      onSubmit={submitHandler}
+    >
       <InputGroup>
         <FormControl
           type="text"

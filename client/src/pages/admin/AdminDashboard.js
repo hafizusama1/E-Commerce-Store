@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
-import Charts, { Chart } from 'react-google-charts';
+import Chart from 'react-google-charts';
 import Loader from '../../components/Loader';
 import MessageBox from '../../components/MessageBox';
 import { StoreContext } from '../../contexts/StoreContext';
@@ -8,6 +8,7 @@ import { getError } from '../../utils/errorResponse';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import { useNavigate } from 'react-router-dom';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -38,6 +39,7 @@ function AdminDashboard() {
 
   const { state } = useContext(StoreContext);
   const { userInfo } = state;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +47,6 @@ function AdminDashboard() {
         const { data } = await axios.get('/api/orders/summary', {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        console.log(data);
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (error) {
         dispatch({
@@ -116,8 +117,29 @@ function AdminDashboard() {
                 width="100%"
                 height="400px"
                 chartType="AreaChart"
-                loader={<div> Loading Chart...</div>}
-                data={['Data', 'Sales']}
+                loader={<Loader />}
+                data={[
+                  ['Date', 'Sales'],
+                  ...summary.dailyOrders.map((x) => [x._id, x.sales]),
+                ]}
+              ></Chart>
+            )}
+          </div>
+
+          <div className="my-3">
+            <h2>Categories</h2>
+            {summary.productCategories.length === 0 ? (
+              <MessageBox>No Categories</MessageBox>
+            ) : (
+              <Chart
+                width="100%"
+                height="400px"
+                chartType="PieChart"
+                loader={<Loader />}
+                data={[
+                  ['Category', 'Products'],
+                  ...summary.productCategories.map((x) => [x._id, x.count]),
+                ]}
               ></Chart>
             )}
           </div>

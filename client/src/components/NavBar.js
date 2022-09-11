@@ -5,7 +5,7 @@ import Badge from 'react-bootstrap/Badge';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { StoreContext } from '../contexts/StoreContext';
 import SearchBox from './SearchBox';
 
@@ -29,10 +29,18 @@ function NavBar() {
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <SearchBox />
+          <Nav className="me-auto my-2 my-lg-0">
+            <Nav.Link as={NavLink} to="/">
+              Home
+            </Nav.Link>{' '}
+            <Nav.Link as={NavLink} to="/search">
+              Products
+            </Nav.Link>
+          </Nav>
           <Nav className="me-auto w-100 justify-content-end">
             <Link to="/cart" className="nav-link">
-              Cart
+              <i className="fa fa-shopping-cart" aria-hidden="true"></i>
+
               {cart.cartItems.length > 0 && (
                 <Badge pill bg="danger">
                   {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -63,20 +71,20 @@ function NavBar() {
             )}
 
             {userInfo && userInfo.isAdmin && (
-              <NavDropdown title="Admin" id="admin-nav-dropdown">
+              <NavDropdown title="Admin Panel" id="admin-nav-dropdown">
                 <LinkContainer to="/admin/dashboard">
                   <NavDropdown.Item>Dashboard</NavDropdown.Item>
                 </LinkContainer>
 
-                <LinkContainer to="/admin/productslist">
+                <LinkContainer to="/admin/products">
                   <NavDropdown.Item>Products</NavDropdown.Item>
                 </LinkContainer>
 
-                <LinkContainer to="/admin/orderslist">
+                <LinkContainer to="/admin/orders">
                   <NavDropdown.Item>Orders</NavDropdown.Item>
                 </LinkContainer>
 
-                <LinkContainer to="/admin/userslist">
+                <LinkContainer to="/admin/users">
                   <NavDropdown.Item>Users</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>

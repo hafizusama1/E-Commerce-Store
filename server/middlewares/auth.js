@@ -16,23 +16,6 @@ const generateToken = (user) => {
 };
 
 const isAuth = (req, res, next) => {
-  // const authorization = req.headers.authorization;
-  // if (authorization) {
-  //   const token = authorization.slice(7, authorization.length);
-  //   console.log(token);
-  //   jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
-  //     if (err) {
-  //       res.status(401).send({ message: 'Invalid Token' });
-  //       console.log(err);
-  //     } else {
-  //       req.user = decode;
-  //       next();
-  //     }
-  //   });
-  // } else {
-  //   res.status(401).send({ message: 'No Token' });
-  // }
-
   let token;
   if (
     req.headers.authorization &&
@@ -56,9 +39,8 @@ const isAuth = (req, res, next) => {
     next();
   } catch (error) {
     res.status(404).json({
-      message: 'No Token',
+      message: 'Session Expired. Please Sign In Again',
     });
-    console.log(error);
   }
 };
 

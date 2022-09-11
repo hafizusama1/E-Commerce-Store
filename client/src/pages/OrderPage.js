@@ -9,9 +9,10 @@ import { getError } from '../utils/errorResponse';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -24,6 +25,22 @@ function reducer(state, action) {
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
 
+    case 'DELIVER_REQUEST':
+      return { ...state, loadingDeliver: true };
+
+    case 'DELIVER_SUCCESS':
+      return { ...state, loadingDeliver: false, successDeliver: true };
+
+    case 'DELIVER_FAIL':
+      return { ...state, loadingDeliver: false };
+
+    case 'DELIVER_RESET':
+      return {
+        ...state,
+        loadingDeliver: false,
+        successDeliver: false,
+      };
+
     default:
       return state;
   }
@@ -35,7 +52,10 @@ function OrderPage() {
   const params = useParams();
   const { id: orderId } = params;
   const navigate = useNavigate();
-  const [{ loading, error, order }, dispatch] = useReducer(reducer, {
+  const [
+    { loading, error, order, loadingDeliver, successDeliver },
+    dispatch,
+  ] = useReducer(reducer, {
     loading: true,
     order: {},
     error: '',
@@ -57,10 +77,33 @@ function OrderPage() {
     if (!userInfo) {
       return navigate('/signin');
     }
-    if (!order._id || (order._id && order._id !== orderId)) {
+    if (!order._id || successDeliver || (order._id && order._id !== orderId)) {
       fetchOrder();
+      if (successDeliver) {
+        dispatch({ type: 'DELIVER_RESET' });
+        return;
+      }
     }
-  }, [order, orderId, userInfo, navigate]);
+  }, [order, orderId, userInfo, navigate, successDeliver]);
+
+  async function deliverOrderHandler() {
+    try {
+      dispatch({ type: 'DELIVER_REQUEST' });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/deliver`,
+        {},
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'DELIVER_SUCCESS', payload: data });
+      toast.success('Order is delivered');
+      return;
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'DELIVER_FAIL' });
+    }
+  }
 
   return loading ? (
     <Loader />
@@ -175,6 +218,17 @@ function OrderPage() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+
+                {userInfo.isAdmin && !order.isDelivered && (
+                  <ListGroup.Item>
+                    {loadingDeliver && <Loader />}
+                    <div className="d-grid">
+                      <Button type="button" onClick={deliverOrderHandler}>
+                        Deliver Order
+                      </Button>
+                    </div>
+                  </ListGroup.Item>
+                )}
               </ListGroup>
             </Card.Body>
           </Card>

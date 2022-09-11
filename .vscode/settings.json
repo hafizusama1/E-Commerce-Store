@@ -6,5 +6,6 @@
     "signin",
     "signout",
     "toastify"
-  ]
+  ],
+  "cSpell.words": ["cloudinary", "CLOUDINARY", "streamifier"]
 }
