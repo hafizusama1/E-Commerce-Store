@@ -60,7 +60,7 @@ const deleteProduct = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 6;
 
 const showAdminProducts = expressAsyncHandler(async (req, res) => {
   const { query } = req;
