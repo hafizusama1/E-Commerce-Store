@@ -78,82 +78,84 @@ function ProductPage() {
   ) : error ? (
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
-    <Row>
-      <Col md={6} className="col-centered">
-        <img
-          className="img-large text-center"
-          src={selectedImage || product.image}
-          alt={product.name}
-        />
-        <ListGroup.Item>
-          <Row xs={1} md={2} className="g-2">
-            {[product.image, ...product.images].map((x) => (
-              <Col key={x} style={{ width: '20%' }}>
-                <Button
-                  className="thumbnail"
-                  type="button"
-                  variant="light"
-                  onClick={() => setSelectedImage(x)}
-                >
-                  <Card.Img variant="top" src={x} alt="product" />
-                </Button>
-              </Col>
-            ))}
-          </Row>
-        </ListGroup.Item>
-      </Col>
-
-      <Col md={6}>
-        <ListGroup variant="flush">
+    <div style={{ paddingBottom: '70px' }}>
+      <Row>
+        <Col md={6} className="col-centered">
+          <img
+            className="img-large text-center"
+            src={selectedImage || product.image}
+            alt={product.name}
+          />
           <ListGroup.Item>
-            <Helmet>
-              <title>{product.title}</title>
-            </Helmet>
-            <h1>{product.title}</h1>
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <Rating rating={product.rating} numReviews={product.numReviews} />
-          </ListGroup.Item>
-          <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-          <ListGroup.Item>
-            <Row>
-              <Col>Status:</Col>
-              <Col>
-                {product.countInStock > 0 ? (
-                  <Badge bg="success">
-                    Only {product.countInStock} left in stock.
-                  </Badge>
-                ) : (
-                  <Badge bg="danger">Out Of Stock</Badge>
-                )}
-              </Col>
+            <Row xs={1} md={2} className="g-2">
+              {[product.image, ...product.images].map((x) => (
+                <Col key={x} style={{ width: '20%' }}>
+                  <Button
+                    className="thumbnail"
+                    type="button"
+                    variant="light"
+                    onClick={() => setSelectedImage(x)}
+                  >
+                    <Card.Img variant="top" src={x} alt="product" />
+                  </Button>
+                </Col>
+              ))}
             </Row>
           </ListGroup.Item>
-          {product.countInStock === 0 ? (
-            <ListGroup.Item>
-              <div className="">
-                <Button variant="primary" disabled>
-                  Add to Cart
-                </Button>
-              </div>
-            </ListGroup.Item>
-          ) : (
-            <ListGroup.Item>
-              <div className="">
-                <Button variant="primary" onClick={addToCartHandler}>
-                  Add to Cart
-                </Button>
-              </div>
-            </ListGroup.Item>
-          )}
+        </Col>
 
-          <ListGroup.Item>
-            <h4>Description:</h4>
-            <p>{product.description} </p>
-          </ListGroup.Item>
-        </ListGroup>
-      </Col>
-    </Row>
+        <Col md={6}>
+          <ListGroup variant="flush">
+            <ListGroup.Item>
+              <Helmet>
+                <title>{product.title}</title>
+              </Helmet>
+              <h1>{product.title}</h1>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Rating rating={product.rating} numReviews={product.numReviews} />
+            </ListGroup.Item>
+            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>
+              <Row>
+                <Col>Status:</Col>
+                <Col>
+                  {product.countInStock > 0 ? (
+                    <Badge bg="success">
+                      Only {product.countInStock} left in stock.
+                    </Badge>
+                  ) : (
+                    <Badge bg="danger">Out Of Stock</Badge>
+                  )}
+                </Col>
+              </Row>
+            </ListGroup.Item>
+            {product.countInStock === 0 ? (
+              <ListGroup.Item>
+                <div>
+                  <Button className="checkout-btn" disabled>
+                    Add to Cart
+                  </Button>
+                </div>
+              </ListGroup.Item>
+            ) : (
+              <ListGroup.Item>
+                <div style={{ padding: '10px 0px' }}>
+                  <Button className="checkout-btn" onClick={addToCartHandler}>
+                    Add to Cart
+                  </Button>
+                </div>
+              </ListGroup.Item>
+            )}
+
+            <ListGroup.Item>
+              <h4>Description:</h4>
+              <p>{product.description} </p>
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
+      </Row>
+    </div>
   );
 }
 

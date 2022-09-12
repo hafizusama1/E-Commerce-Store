@@ -1,4 +1,42 @@
 .App {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 70px;
+  padding-bottom: 50px;
+}
+
+.custom-btn {
+  border: 1px solid #0295a9 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  display: inline-block;
+  padding: 10px 25px !important;
+  color: #0295a9 !important;
+  background-color: #fff !important;
+  text-align: center !important;
+}
+.custom-btn:hover {
+  background-color: #0295a9 !important;
+  color: #fff !important;
+  cursor: pointer !important;
+}
+
+.checkout-btn {
+  border: 1px solid #0295a9 !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  display: inline-block;
+  padding: 10px 25px !important;
+  color: #fff !important;
+  background-color: #0295a9 !important;
+  text-align: center !important;
+}
+
+.checkout-btn:hover {
+  background-color: #fff !important;
+  color: #0295a9 !important;
+  cursor: pointer !important;
+}
+
+label {
+  font-weight: bold !important;
 }

@@ -130,7 +130,11 @@ function EditUser() {
           />
 
           <div className="mb-3">
-            <Button disabled={loadingUpdate} type="submit">
+            <Button
+              className="checkout-btn"
+              disabled={loadingUpdate}
+              type="submit"
+            >
               Update
             </Button>
             {loadingUpdate && <Loader />}

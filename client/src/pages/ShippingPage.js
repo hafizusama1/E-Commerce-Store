@@ -65,7 +65,9 @@ function ShippingPage() {
       </Helmet>
       <CheckoutSteps step1 step2 />
       <div className="container small-container">
-        <h1 className="my-3">Shipping Address</h1>
+        <h1 className="text-center" style={{ margin: '50px 0px' }}>
+          Shipping Address
+        </h1>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="fullName">
             <Form.Label>Full Name</Form.Label>
@@ -113,7 +115,11 @@ function ShippingPage() {
           </Form.Group>
 
           <div className="mb-3">
-            <Button variant="primary" type="submit" onClick={submitHandler}>
+            <Button
+              className="checkout-btn"
+              type="submit"
+              onClick={submitHandler}
+            >
               Continue
             </Button>
           </div>

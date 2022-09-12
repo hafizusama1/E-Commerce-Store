@@ -39,6 +39,7 @@ function SingleProduct({ product }) {
           </Button>
         ) : (
           <Button
+            className="custom-btn"
             onClick={() => {
               addToCartHandler(product);
             }}

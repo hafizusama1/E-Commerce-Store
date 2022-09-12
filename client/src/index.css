@@ -4,6 +4,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.navbar {
+  height: 80px;
+  background-color: #fdd037;
+}
+
 .hero-image {
   width: 100%;
   background: linear-gradient(
@@ -28,19 +34,20 @@ body {
 }
 
 .hero-text button {
-  border: none;
-  outline: 0;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: 0 !important;
   display: inline-block;
-  padding: 10px 25px;
-  color: black;
-  background-color: #ddd;
-  text-align: center;
-  cursor: pointer;
+  padding: 10px 25px !important;
+  color: #000 !important;
+  background-color: #fff !important;
+  text-align: center !important;
 }
 
 .hero-text button:hover {
-  background-color: #555;
-  color: white;
+  background-color: #fdd037 !important;
+  color: #fff !important;
+  cursor: pointer !important;
 }
 
 h1 {
@@ -83,16 +90,17 @@ main {
   width: 20%;
 }
 .small-container {
-  max-width: 600px !important;
+  max-width: 700px !important;
 }
 
 .checkout-steps > div {
+  border-radius: 15px;
   border-bottom: 0.4rem solid #a0a0a0;
   color: #a0a0a0;
 }
 
 .checkout-steps > div.active {
-  border-bottom: 0.4rem solid #11f1f5;
+  border-bottom: 0.4rem solid #12adc1;
   color: #000000;
 }
 
@@ -112,4 +120,19 @@ button.thumbnail {
 a {
   color: #1b1b1b !important;
   text-decoration: none !important;
+}
+a:hover {
+  font-weight: bold !important;
+}
+
+.topbar {
+  background-color: #12adc1 !important;
+  width: 100% !important;
+  padding: 5px 0px;
+  height: 35px !important;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #12adc1 !important;
 }

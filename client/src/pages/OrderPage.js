@@ -110,7 +110,7 @@ function OrderPage() {
   ) : error ? (
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
-    <div>
+    <div style={{ paddingBottom: '50px' }}>
       <Helmet>
         <title>Order {orderId}</title>
       </Helmet>
@@ -119,7 +119,9 @@ function OrderPage() {
         <Col md={8}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Shipping</Card.Title>
+              <Card.Title>
+                <strong>Shipping</strong>
+              </Card.Title>
               <Card.Text>
                 <strong>Name: </strong>
                 {order.shippingAddress.fullName}
@@ -131,7 +133,7 @@ function OrderPage() {
               </Card.Text>
               {order.isDelivered ? (
                 <MessageBox variant="success">
-                  Delivered at {order.deliveredAt}
+                  Delivered at {order.deliveredAt.slice()}
                 </MessageBox>
               ) : (
                 <MessageBox variant="danger">Not Delivered</MessageBox>
@@ -141,7 +143,9 @@ function OrderPage() {
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Payment</Card.Title>
+              <Card.Title>
+                <strong>Payment</strong>
+              </Card.Title>
               <Card.Text>
                 <strong>Method: </strong>
                 {order.paymentMethod}
@@ -158,7 +162,9 @@ function OrderPage() {
 
           <Card>
             <Card.Body>
-              <Card.Title>Order Details</Card.Title>
+              <Card.Title>
+                <strong>Order Details</strong>
+              </Card.Title>
               <ListGroup variant="flush">
                 {order.orderItems.map((item) => (
                   <ListGroup.Item key={item._id}>
@@ -223,7 +229,11 @@ function OrderPage() {
                   <ListGroup.Item>
                     {loadingDeliver && <Loader />}
                     <div className="d-grid">
-                      <Button type="button" onClick={deliverOrderHandler}>
+                      <Button
+                        className="checkout-btn"
+                        type="button"
+                        onClick={deliverOrderHandler}
+                      >
                         Deliver Order
                       </Button>
                     </div>

@@ -39,9 +39,11 @@ function CartPage() {
       <Helmet>
         <title>Shopping Cart</title>
       </Helmet>
-      <h1>Shopping Cart</h1>
+      <h1 className="text-center" style={{ marginBottom: '30px' }}>
+        Shopping Cart
+      </h1>
       <Row>
-        <Col md={10}>
+        <Col md={12}>
           {cartItems.length === 0 ? (
             <MessageBox>
               Cart is Empty. <Link to="/">Go Shopping</Link>{' '}
@@ -58,7 +60,13 @@ function CartPage() {
                           alt={item.title}
                           className="img-fluid rounded img-thumbnail"
                         />
-                        <Link to={`/product/${item.slug}`}>{item.title}</Link>
+                        <Link to={`/product/${item.slug}`}>
+                          <h4
+                            style={{ display: 'inline', paddingLeft: '20px' }}
+                          >
+                            {item.title}
+                          </h4>
+                        </Link>
                       </Col>
                       <Col md={3}>
                         <Button
@@ -70,7 +78,7 @@ function CartPage() {
                         >
                           <i className="fas fa-minus-circle" />
                         </Button>
-                        <span>{item.quantity}</span>
+                        <span> {item.quantity} </span>
                         <Button
                           variant="light"
                           disabled={item.quantity === item.countInStock}
@@ -81,7 +89,10 @@ function CartPage() {
                           <i className="fas fa-plus-circle" />
                         </Button>
                       </Col>
-                      <Col md={2}> ${item.price}</Col>
+                      <Col md={2}>
+                        {' '}
+                        <strong>${item.price}</strong>
+                      </Col>
                       <Col md={1}>
                         <Button
                           variant="light"
@@ -98,16 +109,21 @@ function CartPage() {
           )}
         </Col>
       </Row>
-      <Row>
-        <Col md={6}>
-          <ListGroup>
-            <ListGroup.Item>
-              <h3>
-                Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)} items)
-                : ${cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
-              </h3>
-            </ListGroup.Item>
-          </ListGroup>
+      <Row style={{ padding: '20px 0px' }}>
+        <Col md={8}>
+          <div className="d-flex align-items-end">
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h3>
+                  Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
+                  items) :{' '}
+                  <strong>
+                    ${cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                  </strong>
+                </h3>
+              </ListGroup.Item>
+            </ListGroup>
+          </div>
         </Col>
         <Col md={4}>
           <ListGroup variant="flush">
@@ -115,7 +131,7 @@ function CartPage() {
               <div className="d-grid">
                 <Button
                   type="button"
-                  variant="primary"
+                  className="checkout-btn"
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
                 >

@@ -14,7 +14,7 @@ function PaymentPage() {
   } = state;
 
   const [paymentMethodName, setPaymentMethod] = useState(
-    paymentMethod || 'Paypal'
+    paymentMethod || 'Cash On Delivery'
   );
 
   useEffect(() => {
@@ -37,16 +37,18 @@ function PaymentPage() {
         <Helmet>
           <title>Payment</title>
         </Helmet>
-        <h1 className="my-3">Payment</h1>
+        <h1 style={{ marginTop: '30px' }} className="text-center">
+          Payment
+        </h1>
 
         <Form onSubmit={submitHandler}>
           <div className="mb-3">
             <Form.Check
               type="radio"
-              id="Paypal"
-              label="Paypal"
-              value="Paypal"
-              checked={paymentMethodName === 'Paypal'}
+              id="Easypaisa"
+              label="Easypaisa"
+              value="Easypaisa"
+              checked={paymentMethodName === 'Easypaisa'}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
           </div>
@@ -54,10 +56,10 @@ function PaymentPage() {
           <div className="mb-3">
             <Form.Check
               type="radio"
-              id="Stripe"
-              label="Stripe"
-              value="Stripe"
-              checked={paymentMethodName === 'Stripe'}
+              id="Jazzcash"
+              label="Jazzcash"
+              value="Jazzcash"
+              checked={paymentMethodName === 'Jazzcash'}
               onChange={(e) => setPaymentMethod(e.target.value)}
             />
           </div>
@@ -73,7 +75,9 @@ function PaymentPage() {
             />
           </div>
           <div className="mb-3">
-            <Button type="submit">Continue</Button>
+            <Button className="checkout-btn" type="submit">
+              Continue
+            </Button>
           </div>
         </Form>
       </div>

@@ -97,12 +97,24 @@ function SignupPage() {
         </Form.Group>
 
         <div className="mb-3">
-          <Button type="submit">Sign Up</Button>
+          <Button className="checkout-btn" type="submit">
+            Sign Up
+          </Button>
         </div>
 
         <div>
           Already have an account?
-          <Link to={`/signin?redirect=${redirect}`}> Sign In</Link>
+          <Link to={`/signin?redirect=${redirect}`}>
+            <span
+              style={{
+                fontWeight: 'bold',
+                textDecoration: 'underline',
+              }}
+            >
+              {' '}
+              Sign In
+            </span>
+          </Link>
         </div>
       </Form>
     </Container>

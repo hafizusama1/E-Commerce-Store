@@ -122,7 +122,6 @@ function SearchPage() {
         setCategories(data);
       } catch (error) {
         toast.error(getError(error));
-        console.log(error);
       }
     };
     fetchCategories();
@@ -135,7 +134,7 @@ function SearchPage() {
     const filterRating = filter.rating || rating;
     const filterPrice = filter.price || price;
     const sortOrder = filter.order || order;
-    return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
+    return `/products?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
   };
 
   return (
@@ -225,7 +224,7 @@ function SearchPage() {
           ) : error ? (
             <MessageBox variant="danger">{error}</MessageBox>
           ) : (
-            <>
+            <div style={{ paddingBottom: '50px' }}>
               <Row className="justify-content-between mb-3">
                 <Col md={6}>
                   <div>
@@ -290,7 +289,7 @@ function SearchPage() {
                   </LinkContainer>
                 ))}
               </div>
-            </>
+            </div>
           )}
         </Col>
       </Row>

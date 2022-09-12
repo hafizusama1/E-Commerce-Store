@@ -29,8 +29,6 @@ function Products() {
     error: '',
   });
 
-  console.log(products);
-
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
@@ -47,11 +45,11 @@ function Products() {
   return (
     <div className="App">
       <h1>Hot Selling Products</h1>
-      <p>
+      <p style={{ paddingBottom: '20px' }}>
         Looking for Damascus Knives Collection? Look no further than Damascus
         outlet. Click Below to browse our huge selection
       </p>
-      <div style={{}}>
+      <div>
         {loading ? (
           <Loader />
         ) : error ? (

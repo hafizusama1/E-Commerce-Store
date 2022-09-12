@@ -109,7 +109,9 @@ function ProfilePage() {
           />
         </Form.Group>
         <div>
-          <Button type="submit">Update</Button>
+          <Button className="checkout-btn" type="submit">
+            Update
+          </Button>
         </div>
       </form>
     </div>

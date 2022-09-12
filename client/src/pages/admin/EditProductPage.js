@@ -7,6 +7,8 @@ import Container from 'react-bootstrap/Container';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { toast } from 'react-toastify';
 import { getError } from '../../utils/errorResponse';
 import Loader from '../../components/Loader';
@@ -41,6 +43,7 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 function EditProductPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -146,9 +149,6 @@ function EditProductPage() {
     }
   };
   const deleteFileHandler = async (fileName, f) => {
-    console.log(fileName, f);
-    console.log(images);
-    console.log(images.filter((x) => x !== fileName));
     setImages(images.filter((x) => x !== fileName));
     toast.success('Image removed successfully. click Update to apply it');
   };
@@ -159,7 +159,6 @@ function EditProductPage() {
         <title>Edit Product ${title}</title>
       </Helmet>
       <h1>Edit Product</h1>
-      <h3>{title}</h3>
 
       {loading ? (
         <Loader></Loader>
@@ -167,14 +166,30 @@ function EditProductPage() {
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
         <Form onSubmit={submitHandler}>
-          <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </Form.Group>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3" controlId="name">
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3" controlId="name">
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
           <Form.Group className="mb-3" controlId="slug">
             <Form.Label>Slug</Form.Label>
             <Form.Control
@@ -183,50 +198,56 @@ function EditProductPage() {
               required
             />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="image">
-            <Form.Label>Image File</Form.Label>
-            <Form.Control
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              required
-            />
-          </Form.Group>{' '}
-          <Form.Group className="mb-3" controlId="imageFile">
-            <Form.Label>Upload Image</Form.Label>
-            <Form.Control type="file" onChange={uploadFileHandler} />
-            {loadingUpload && <Loader />}
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="additionalImage">
-            <Form.Label>Additional Images</Form.Label>
-            {images.length === 0 && <MessageBox>No image</MessageBox>}
-            <ListGroup variant="flush">
-              {images.map((x) => (
-                <ListGroup.Item key={x}>
-                  {x}
-                  <Button variant="light" onClick={() => deleteFileHandler(x)}>
-                    <i className="fa fa-times-circle"></i>
-                  </Button>
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="additionalImageFile">
-            <Form.Label>Upload Additional Images</Form.Label>
-            <Form.Control
-              type="file"
-              onChange={(e) => uploadFileHandler(e, true)}
-            />
-            {loadingUpload && <Loader></Loader>}
-          </Form.Group>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3" controlId="image">
+                <Form.Label>Image File</Form.Label>
+                <Form.Control
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                  required
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3" controlId="imageFile">
+                <Form.Label>Upload Image</Form.Label>
+                <Form.Control type="file" onChange={uploadFileHandler} />
+                {loadingUpload && <Loader />}
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Group className="mb-3" controlId="additionalImage">
+                <Form.Label>Additional Images</Form.Label>
+                {images.length === 0 && <MessageBox>No image</MessageBox>}
+                <ListGroup variant="flush">
+                  {images.map((x) => (
+                    <ListGroup.Item key={x}>
+                      {x}
+                      <Button
+                        variant="light"
+                        onClick={() => deleteFileHandler(x)}
+                      >
+                        <i className="fa fa-times-circle"></i>
+                      </Button>
+                    </ListGroup.Item>
+                  ))}
+                </ListGroup>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group className="mb-3" controlId="additionalImageFile">
+                <Form.Label>Upload Additional Images</Form.Label>
+                <Form.Control
+                  type="file"
+                  onChange={(e) => uploadFileHandler(e, true)}
+                />
+                {loadingUpload && <Loader></Loader>}
+              </Form.Group>
+            </Col>
+          </Row>
           <Form.Group className="mb-3" controlId="category">
             <Form.Label>Category</Form.Label>
             <Form.Control
@@ -255,7 +276,11 @@ function EditProductPage() {
             />
           </Form.Group>
           <div className="mb-3">
-            <Button disabled={loadingUpdate} type="submit">
+            <Button
+              disabled={loadingUpdate}
+              className="checkout-btn"
+              type="submit"
+            >
               Update
             </Button>
             {loadingUpdate && <Loader></Loader>}

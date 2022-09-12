@@ -99,29 +99,30 @@ function ProductList() {
   }, [page, userInfo, successDelete]);
 
   const createProductHandler = async () => {
-    try {
-      dispatch({ type: 'CREATE_REQUEST' });
-      const { data } = await axios.post(
-        '/api/products',
-        {},
-        {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
-        }
-      );
-      toast.success('Product Created Successfully');
-      dispatch({ type: 'CREATE_SUCCESS' });
-      navigate(`/admin/product/${data.product._id}`);
-      return;
-    } catch (error) {
-      toast.error(getError(error));
-      dispatch({
-        type: 'CREATE_FAIL',
-      });
-    }
+    navigate('/admin/addproduct');
+    // try {
+    //   dispatch({ type: 'CREATE_REQUEST' });
+    //   const { data } = await axios.post(
+    //     '/api/products',
+    //     {},
+    //     {
+    //       headers: { Authorization: `Bearer ${userInfo.token}` },
+    //     }
+    //   );
+    //   toast.success('Product Created Successfully');
+    //   dispatch({ type: 'CREATE_SUCCESS' });
+    //   navigate(`/admin/product/${data.product._id}`);
+    //   return;
+    // } catch (error) {
+    //   toast.error(getError(error));
+    //   dispatch({
+    //     type: 'CREATE_FAIL',
+    //   });
+    // }
   };
 
   const deleteHandler = async (product) => {
-    if (window.confirm('Are you sure you want to delete?')) {
+    if (window.confirm('Are you sure you want to delete the product?')) {
       try {
         await axios.delete(`/api/products/${product._id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
@@ -141,12 +142,16 @@ function ProductList() {
     <div>
       <Row>
         <Col>
-          <h1>Products</h1>
+          <h1>All Products</h1>
         </Col>
 
         <Col className="col text-end">
           <div>
-            <Button type="button" onClick={createProductHandler}>
+            <Button
+              className="checkout-btn"
+              type="button"
+              onClick={createProductHandler}
+            >
               Add New Product
             </Button>
           </div>
@@ -164,7 +169,7 @@ function ProductList() {
           <table className="table">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Product ID</th>
                 <th>Title</th>
                 <th>Price</th>
                 <th>Category</th>
@@ -180,6 +185,7 @@ function ProductList() {
                   <td>{product.category}</td>
                   <td>
                     <Button
+                      style={{ color: '#fff !important' }}
                       target="_blank"
                       type="button"
                       variant="primary"

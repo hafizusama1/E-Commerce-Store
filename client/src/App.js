@@ -26,6 +26,7 @@ import EditProductPage from './pages/admin/EditProductPage';
 import OrderList from './pages/admin/OrderList';
 import UserList from './pages/admin/UserList';
 import EditUser from './pages/admin/EditUser';
+import AddProduct from './pages/admin/AddProduct';
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/signin" element={<SigninPage />} />
             <Route path="/shipping" element={<ShippingPage />} />
-            <Route path="/search" element={<SearchPage />} />
+            <Route path="/products" element={<SearchPage />} />
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/placeorder" element={<PlaceOrderPage />} />
             <Route
@@ -84,6 +85,15 @@ function App() {
               element={
                 <AdminRoute>
                   <ProductList />
+                </AdminRoute>
+              }
+            />
+
+            <Route
+              path="/admin/addproduct"
+              element={
+                <AdminRoute>
+                  <AddProduct />
                 </AdminRoute>
               }
             />

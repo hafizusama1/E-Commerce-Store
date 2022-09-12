@@ -60,7 +60,9 @@ function AdminDashboard() {
 
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1 className="text-center" style={{ marginBottom: '30px' }}>
+        Admin Dashboard
+      </h1>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -76,7 +78,10 @@ function AdminDashboard() {
                       ? summary.users[0].numUsers
                       : 0}
                   </Card.Title>
-                  <Card.Text> Users</Card.Text>
+                  <Card.Text>
+                    {' '}
+                    <strong>Users</strong>
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -89,7 +94,9 @@ function AdminDashboard() {
                       ? summary.orders[0].numOrders
                       : 0}
                   </Card.Title>
-                  <Card.Text> Orders</Card.Text>
+                  <Card.Text>
+                    <strong>Orders</strong>
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -103,20 +110,22 @@ function AdminDashboard() {
                       ? summary.orders[0].totalSales.toFixed(2)
                       : 0}
                   </Card.Title>
-                  <Card.Text> Sales</Card.Text>
+                  <Card.Text>
+                    <strong>Sales</strong>
+                  </Card.Text>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
           <div className="my-3">
-            <h2>Sales</h2>
+            <h1 style={{ marginTop: '70px' }}>Sales</h1>
             {summary.dailyOrders.length === 0 ? (
               <MessageBox>No Sale</MessageBox>
             ) : (
               <Chart
                 width="100%"
-                height="400px"
-                chartType="AreaChart"
+                height="300px"
+                chartType="LineChart"
                 loader={<Loader />}
                 data={[
                   ['Date', 'Sales'],
@@ -127,7 +136,7 @@ function AdminDashboard() {
           </div>
 
           <div className="my-3">
-            <h2>Categories</h2>
+            <h1 style={{ marginTop: '70px' }}>Categories</h1>
             {summary.productCategories.length === 0 ? (
               <MessageBox>No Categories</MessageBox>
             ) : (

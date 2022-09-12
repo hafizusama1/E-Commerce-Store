@@ -7,19 +7,10 @@ const getAllProducts = expressAsyncHandler(async (req, res) => {
 });
 
 const addNewProduct = expressAsyncHandler(async (req, res) => {
-  const newProduct = new Product({
-    title: 'sample title ',
-    slug: 'sample-title-slug',
-    image: '/images/p1.png',
-    price: ' ',
-    category: ' ',
-    countInStock: ' ',
-    rating: ' ',
-    numReviews: 0,
-    description: 'Sample description',
+  await Product.create(req.body);
+  res.json({
+    message: 'Product Created',
   });
-  const product = await newProduct.save();
-  res.status(201).json({ message: 'Product Created', product });
 });
 
 const editProduct = expressAsyncHandler(async (req, res) => {
@@ -69,7 +60,7 @@ const deleteProduct = expressAsyncHandler(async (req, res) => {
   }
 });
 
-const PAGE_SIZE = 3;
+const PAGE_SIZE = 5;
 
 const showAdminProducts = expressAsyncHandler(async (req, res) => {
   const { query } = req;
